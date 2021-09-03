@@ -21,11 +21,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gogo/protobuf/proto"
 	"github.com/freetsdb/freetsdb"
 	"github.com/freetsdb/freetsdb/pkg/file"
 	"github.com/freetsdb/freetsdb/services/influxql"
 	"github.com/freetsdb/freetsdb/services/meta/internal"
+	"github.com/gogo/protobuf/proto"
 	"go.uber.org/zap"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -876,7 +876,7 @@ func (c *Client) PrecreateShardGroups(from, to time.Time) error {
 					c.logger.Info("Failed to precreate successive shard group",
 						zap.Uint64("Group ID", g.ID),
 						zap.Error(err))
-				} else {
+				} else if newGroup != nil {
 					c.logger.Info("New shard group successfully precreated",
 						zap.Uint64("Group ID", newGroup.ID),
 						zap.String("Database", di.Name),
