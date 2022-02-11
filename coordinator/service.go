@@ -314,7 +314,9 @@ func (s *Service) processCreateIteratorRequest(conn net.Conn) {
 		itr = ic
 		return nil
 	}(); err != nil {
-		itr.Close()
+		if itr != nil {
+			itr.Close()
+		}
 		//s.Logger.Printf("error reading CreateIterator request: %s", err)
 		EncodeTLV(conn, createIteratorResponseMessage, &CreateIteratorResponse{Err: err})
 		return
